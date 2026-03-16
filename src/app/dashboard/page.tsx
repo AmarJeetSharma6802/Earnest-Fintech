@@ -119,7 +119,7 @@ export default function Dashboard() {
 
             <div className="flex flex-wrap gap-3">
               <Link
-                href="/"
+                href="https://portfolio-beta-dusky-34.vercel.app/"
                 className="rounded-2xl border border-white/15 bg-white/10 px-5 py-3 font-semibold text-white hover:bg-white/15"
               >
                 Portfolio
