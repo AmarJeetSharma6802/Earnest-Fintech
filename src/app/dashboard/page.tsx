@@ -5,11 +5,13 @@ import { useDeferredValue, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import api from "@/lib/api";
 
+type TaskStatus = "PENDING" | "COMPLETED";
+
 interface Task {
   id: string;
   title: string;
-  description: string;
-  completed: boolean;
+  description: string | null;
+  status: TaskStatus;
 }
 
 export default function Dashboard() {
@@ -20,6 +22,7 @@ export default function Dashboard() {
   const [editId, setEditId] = useState<string | null>(null);
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
+  const [activeTaskId, setActiveTaskId] = useState<string | null>(null);
   const deferredSearch = useDeferredValue(search);
 
   const fetchTasks = async () => {
@@ -62,7 +65,7 @@ export default function Dashboard() {
 
   const handleEdit = (task: Task) => {
     setTitle(task.title);
-    setDescription(task.description);
+    setDescription(task.description || "");
     setEditId(task.id);
   };
 
@@ -76,6 +79,19 @@ export default function Dashboard() {
     }
   };
 
+  const handleToggleStatus = async (id: string) => {
+    setActiveTaskId(id);
+    try {
+      await api.patch(`/tasks/${id}/toggle`);
+      fetchTasks();
+      
+    } catch (err) {
+      console.error("Failed to toggle task status", err);
+    } finally {
+      setActiveTaskId(null);
+    }
+  };
+
   const handleLogout = () => {
     localStorage.removeItem("token");
     router.push("/login");
@@ -83,7 +99,7 @@ export default function Dashboard() {
 
   const filteredTasks = tasks.filter((task) =>
     task.title.toLowerCase().includes(deferredSearch.toLowerCase()) ||
-    task.description.toLowerCase().includes(deferredSearch.toLowerCase())
+    (task.description || "").toLowerCase().includes(deferredSearch.toLowerCase())
   );
 
   return (
@@ -178,13 +194,35 @@ export default function Dashboard() {
                     className="flex flex-col gap-4 rounded-3xl border border-slate-200 bg-slate-50/80 p-5 md:flex-row md:items-center md:justify-between"
                   >
                     <div className="max-w-xl">
-                      <h3 className="text-lg font-bold text-slate-900">{task.title}</h3>
+                      <div className="flex flex-wrap items-center gap-3">
+                        <h3 className="text-lg font-bold text-slate-900">{task.title}</h3>
+                        <span
+                          className={`rounded-full px-3 py-1 text-xs font-semibold ${
+                            task.status === "COMPLETED"
+                              ? "bg-emerald-100 text-emerald-700"
+                              : "bg-amber-100 text-amber-700"
+                          }`}
+                        >
+                          {task.status === "COMPLETED" ? "Completed" : "Pending"}
+                        </span>
+                      </div>
                       <p className="mt-2 text-sm leading-6 text-slate-600">
                         {task.description || "No description added yet."}
                       </p>
                     </div>
 
                     <div className="flex gap-3">
+                      <button
+                        className="rounded-2xl bg-emerald-50 px-4 py-2.5 font-semibold text-emerald-700 ring-1 ring-emerald-100 hover:bg-emerald-100 disabled:cursor-not-allowed disabled:opacity-70"
+                        onClick={() => handleToggleStatus(task.id)}
+                        disabled={activeTaskId === task.id}
+                      >
+                        {activeTaskId === task.id
+                          ? "Updating..."
+                          : task.status === "COMPLETED"
+                            ? "Mark Pending"
+                            : "Mark Complete"}
+                      </button>
                       <button
                         className="rounded-2xl bg-white px-4 py-2.5 font-semibold text-slate-700 ring-1 ring-slate-200 hover:bg-slate-100"
                         onClick={() => handleEdit(task)}
