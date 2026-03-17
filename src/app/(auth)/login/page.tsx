@@ -132,7 +132,7 @@ export default function AuthPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full rounded-2xl bg-slate-950 px-4 py-3 font-semibold text-white shadow-[0_20px_50px_-20px_rgba(15,23,42,0.7)] hover:-translate-y-0.5 hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-70"
+                className="w-full rounded-2xl bg-slate-950 px-4 py-3 font-semibold text-white shadow-[0_20px_50px_-20px_rgba(15,23,42,0.7)] hover:-translate-y-0.5 hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-70 cursor-pointer"
               >
                 {loading ? "Processing..." : (mode === "login" ? "Login" : "Register")}
               </button>

@@ -259,7 +259,7 @@ export default function Dashboard() {
                     <button
                       type="button"
                       onClick={handleLogout}
-                      className="mt-3 w-full rounded-2xl bg-rose-50 px-4 py-3 text-left font-semibold text-rose-700 ring-1 ring-rose-100 hover:bg-rose-100"
+                      className="mt-3 w-full rounded-2xl bg-rose-50 px-4 py-3 text-left font-semibold text-rose-700 ring-1 ring-rose-100 hover:bg-rose-100 cursor-pointer"
                     >
                       Logout
                     </button>
