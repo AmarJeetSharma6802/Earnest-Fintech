@@ -46,6 +46,7 @@ export default function Dashboard() {
   const [totalTasks, setTotalTasks] = useState(0);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const deferredSearch = useDeferredValue(search);
+
   const profileMenuRef = useRef<HTMLDivElement | null>(null);
   const userInitial = user?.name?.trim().charAt(0).toUpperCase() || "U";
 
