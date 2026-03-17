@@ -56,7 +56,7 @@ export default function Dashboard() {
   const fetchTasks = async (page = currentPage, searchTerm = deferredSearch) => {
     setLoading(true);
     try {
-      const res = await api.get<TasksResponse>("https://earnest-fintech-backend-iehl.onrender.com/api/tasks", {
+      const res = await api.get<TasksResponse>("/tasks", {
         params: {
           page,
           limit: tasksPerPage,
