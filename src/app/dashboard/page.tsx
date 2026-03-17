@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useDeferredValue, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import api from "@/lib/api";
+import PaginationControls from "@/components/dashboard/pagination-controls";
 
 type TaskStatus = "PENDING" | "COMPLETED";
 
@@ -12,6 +13,16 @@ interface Task {
   title: string;
   description: string | null;
   status: TaskStatus;
+}
+
+interface TasksResponse {
+  tasks: Task[];
+  pagination?: {
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
+  };
 }
 
 export default function Dashboard() {
@@ -23,12 +34,30 @@ export default function Dashboard() {
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
   const [activeTaskId, setActiveTaskId] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalTasks, setTotalTasks] = useState(0);
   const deferredSearch = useDeferredValue(search);
+  const tasksPerPage = 5;
 
-  const fetchTasks = async () => {
+  const fetchTasks = async (page = currentPage, searchTerm = deferredSearch) => {
+    setLoading(true);
     try {
-      const res = await api.get("/tasks");
-      setTasks(Array.isArray(res.data) ? res.data : res.data.tasks || []);
+      const res = await api.get<TasksResponse>("/tasks", {
+        params: {
+          page,
+          limit: tasksPerPage,
+          search: searchTerm || undefined,
+        },
+      });
+
+      const responseTasks = res.data.tasks || [];
+      const responsePagination = res.data.pagination;
+
+      setTasks(responseTasks);
+      setCurrentPage(responsePagination?.page || page);
+      setTotalPages(responsePagination?.totalPages || 1);
+      setTotalTasks(responsePagination?.total || responseTasks.length);
     } catch (err) {
       console.error("Failed to fetch tasks", err);
     } finally {
@@ -40,14 +69,20 @@ export default function Dashboard() {
     if (typeof window !== "undefined" && !localStorage.getItem("token")) {
       router.replace("/login");
     } else {
-      fetchTasks();
+      fetchTasks(1, deferredSearch);
     }
-  }, [router]);
+  }, [router, deferredSearch]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [deferredSearch]);
 
   const handleSubmit = async () => {
     if (!title) return;
 
     try {
+      const nextPage = editId ? currentPage : 1;
+
       if (editId) {
         await api.patch(`/tasks/${editId}`, { title, description });
         setEditId(null);
@@ -57,7 +92,7 @@ export default function Dashboard() {
 
       setTitle("");
       setDescription("");
-      fetchTasks();
+      fetchTasks(nextPage, deferredSearch);
     } catch (err) {
       console.error("Failed to save task", err);
     }
@@ -71,9 +106,13 @@ export default function Dashboard() {
 
   const handleDelete = async (id: string) => {
     if (!confirm("Are you sure?")) return;
+
     try {
       await api.delete(`/tasks/${id}`);
-      fetchTasks();
+
+      const nextPage = tasks.length === 1 && currentPage > 1 ? currentPage - 1 : currentPage;
+      
+      fetchTasks(nextPage, deferredSearch);
     } catch (err) {
       console.error("Failed to delete task", err);
     }
@@ -83,7 +122,7 @@ export default function Dashboard() {
     setActiveTaskId(id);
     try {
       await api.patch(`/tasks/${id}/toggle`);
-      fetchTasks();
+      fetchTasks(currentPage, deferredSearch);
       
     } catch (err) {
       console.error("Failed to toggle task status", err);
@@ -97,10 +136,13 @@ export default function Dashboard() {
     router.push("/login");
   };
 
-  const filteredTasks = tasks.filter((task) =>
-    task.title.toLowerCase().includes(deferredSearch.toLowerCase()) ||
-    (task.description || "").toLowerCase().includes(deferredSearch.toLowerCase())
-  );
+  const handlePageChange = (page: number) => {
+    if (page < 1 || page > totalPages) {
+      return;
+    }
+
+    fetchTasks(page, deferredSearch);
+  };
 
   return (
     <main className="min-h-screen bg-[linear-gradient(180deg,#eef4ff_0%,#f8fafc_35%,#ffffff_100%)] px-4 py-8 text-slate-900 sm:px-6 lg:px-8">
@@ -144,7 +186,7 @@ export default function Dashboard() {
                 </h2>
               </div>
               <div className="rounded-2xl bg-sky-100 px-3 py-2 text-sm font-semibold text-sky-700">
-                {tasks.length} total
+                {totalTasks} total
               </div>
             </div>
 
@@ -187,8 +229,8 @@ export default function Dashboard() {
             <div className="mt-6 space-y-4">
               {loading ? (
                 <p className="rounded-2xl bg-slate-50 px-4 py-6 text-center text-slate-500">Loading tasks...</p>
-              ) : filteredTasks.length > 0 ? (
-                filteredTasks.map((task) => (
+              ) : tasks.length > 0 ? (
+                tasks.map((task) => (
                   <article
                     key={task.id}
                     className="flex flex-col gap-4 rounded-3xl border border-slate-200 bg-slate-50/80 p-5 md:flex-row md:items-center md:justify-between"
@@ -247,6 +289,12 @@ export default function Dashboard() {
                 </div>
               )}
             </div>
+
+            <PaginationControls
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={handlePageChange}
+            />
           </div>
         </section>
       </div>
