@@ -1,7 +1,7 @@
 'use client';
 
 import Link from "next/link";
-import { useDeferredValue, useEffect, useRef, useState } from "react";
+import { useDeferredValue, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import api from "@/lib/api";
 import PaginationControls from "@/app/dashboard/pagination-controls";
@@ -44,18 +44,8 @@ export default function Dashboard() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [totalTasks, setTotalTasks] = useState(0);
-  const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
-  const [isAuthReady, setIsAuthReady] = useState(false);
   const deferredSearch = useDeferredValue(search);
   const tasksPerPage = 5;
-  const profileMenuRef = useRef<HTMLDivElement | null>(null);
-
-  const userInitial = user?.name?.trim().charAt(0).toUpperCase() || "U";
-
-  const fetchCurrentUser = async () => {
-    const res = await api.get<{ user: CurrentUser }>("/auth/me");
-    setUser(res.data.user);
-  };
 
   const fetchTasks = async (page = currentPage, searchTerm = deferredSearch) => {
     setLoading(true);
@@ -82,6 +72,7 @@ export default function Dashboard() {
     }
   };
 
+  // user fetch for logo
   useEffect(() => {
     const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
 
@@ -90,40 +81,33 @@ export default function Dashboard() {
       return;
     }
 
-    fetchCurrentUser()
-      .then(() => setIsAuthReady(true))
-      .catch((err) => {
-        console.error("Failed to initialize dashboard", err);
+    const loadCurrentUser = async () => {
+      try {
+        const res = await api.get<{ user: CurrentUser }>("/auth/me");
+        setUser(res.data.user);
+      } catch (err) {
+        console.error("Failed to load user", err);
         localStorage.removeItem("token");
         router.replace("/login");
-      });
+      }
+    };
+
+    loadCurrentUser();
   }, [router]);
 
+  // task fetch  
   useEffect(() => {
-    if (!isAuthReady) {
+    if (typeof window !== "undefined" && !localStorage.getItem("token")) {
+      router.replace("/login");
       return;
     }
 
     fetchTasks(1, deferredSearch);
-  }, [isAuthReady, deferredSearch]);
+  }, [router, deferredSearch]);
 
   useEffect(() => {
     setCurrentPage(1);
   }, [deferredSearch]);
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (!profileMenuRef.current?.contains(event.target as Node)) {
-        setIsProfileMenuOpen(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
 
   const handleSubmit = async () => {
     if (!title) return;
@@ -186,7 +170,6 @@ export default function Dashboard() {
       console.error("Failed to logout cleanly", err);
     } finally {
       localStorage.removeItem("token");
-      setIsProfileMenuOpen(false);
       router.push("/login");
     }
   };
@@ -214,52 +197,27 @@ export default function Dashboard() {
               </p>
             </div>
 
-            <div className="flex flex-wrap gap-3">
+            <div className="flex flex-wrap gap-3 items-center">
               <Link
                 href="https://portfolio-beta-dusky-34.vercel.app/"
                 className="rounded-2xl border border-white/15 bg-white/10 px-5 py-3 font-semibold text-white hover:bg-white/15"
               >
                 Portfolio
               </Link>
-              <div className="relative" ref={profileMenuRef}>
-                <button
-                  type="button"
-                  onClick={() => setIsProfileMenuOpen((open) => !open)}
-                  className="flex items-center gap-3 rounded-2xl border border-white/15 bg-white/10 px-3 py-2 text-left hover:bg-white/15"
-                >
-                  <div className="flex h-11 w-11 items-center justify-center rounded-full bg-sky-400 text-base font-black text-slate-950">
-                    {userInitial}
-                  </div>
-                  <div className="hidden sm:block">
-                    <p className="text-sm font-semibold text-white">
-                      {user?.name || "User"}
-                    </p>
-                    <p className="text-xs text-slate-300">
-                      Profile
-                    </p>
-                  </div>
-                </button>
-
-                {isProfileMenuOpen ? (
-                  <div className="absolute right-0 top-full z-10 mt-3 w-56 rounded-3xl border border-slate-200 bg-white p-3 text-slate-900 shadow-[0_24px_70px_-30px_rgba(15,23,42,0.55)]">
-                    <div className="border-b border-slate-100 px-3 pb-3">
-                      <p className="font-semibold text-slate-900">
-                        {user?.name || "User"}
-                      </p>
-                      <p className="mt-1 text-sm text-slate-500">
-                        {user?.email || "Signed in"}
-                      </p>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={handleLogout}
-                      className="mt-3 w-full rounded-2xl bg-rose-50 px-4 py-3 text-left font-semibold text-rose-700 ring-1 ring-rose-100 hover:bg-rose-100"
-                    >
-                      Logout
-                    </button>
-                  </div>
-                ) : null}
+              <div className="rounded-2xl border border-white/15 bg-white/10 px-4 py-3">
+                <p className="text-xs uppercase tracking-[0.2em] text-slate-300">
+                  Signed in
+                </p>
+                <p className="mt-1 font-semibold text-white">
+                  {user?.name || "User"}
+                </p>
               </div>
+              <button
+                onClick={handleLogout}
+                className="rounded-2xl border border-rose-400/30 bg-rose-400/10 px-5 py-3 font-semibold text-rose-100 hover:bg-rose-400/20"
+              >
+                Logout
+              </button>
             </div>
           </div>
         </section>
