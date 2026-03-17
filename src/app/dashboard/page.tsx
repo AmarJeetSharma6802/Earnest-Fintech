@@ -231,7 +231,7 @@ export default function Dashboard() {
                 <button
                   type="button"
                   onClick={() => setIsProfileMenuOpen((open) => !open)}
-                  className="flex items-center gap-3 rounded-2xl border border-white/15 bg-white/10 px-3 py-2 hover:bg-white/15"
+                  className="flex items-center gap-3 rounded-2xl border cursor-pointer"
                 >
                   <div className="flex h-11 w-11 items-center justify-center rounded-full bg-sky-400 text-base font-black text-slate-950">
                     {userInitial}
@@ -299,7 +299,7 @@ export default function Dashboard() {
               />
               <button
                 onClick={handleSubmit}
-                className="w-full rounded-2xl bg-slate-950 px-4 py-3 font-semibold text-white shadow-[0_18px_45px_-24px_rgba(15,23,42,0.75)] hover:-translate-y-0.5 hover:bg-slate-800"
+                className="w-full rounded-2xl bg-slate-950 px-4 py-3 font-semibold text-white shadow-[0_18px_45px_-24px_rgba(15,23,42,0.75)] hover:-translate-y-0.5 hover:bg-slate-800 cursor-pointer"
               >
                 {editId ? "Update Task" : "Add Task"}
               </button>

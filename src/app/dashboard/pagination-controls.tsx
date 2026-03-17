@@ -18,7 +18,7 @@ export default function PaginationControls({currentPage,totalPages,onPageChange,
         Page {currentPage} of {totalPages}
       </p>
 
-      <div className="flex gap-3">
+      <div className="flex gap-3 cursor-pointer">
         <button
           type="button"
           onClick={() => onPageChange(currentPage - 1)}

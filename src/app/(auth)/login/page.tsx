@@ -140,7 +140,7 @@ export default function AuthPage() {
 
             <button
               type="button"
-              className="mt-6 text-sm font-semibold text-sky-700 hover:text-sky-900"
+              className="mt-6 text-sm font-semibold text-sky-700 hover:text-sky-900 cursor-pointer"
               onClick={() => setMode(mode === "login" ? "register" : "login")}
             >
               {mode === "login" ? "Create Account" : "Back to Login"}
