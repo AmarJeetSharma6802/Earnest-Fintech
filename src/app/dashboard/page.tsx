@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useDeferredValue, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import api from "@/lib/api";
-import PaginationControls from "@/components/dashboard/pagination-controls";
+import PaginationControls from "@/app/dashboard/pagination-controls";
 
 type TaskStatus = "PENDING" | "COMPLETED";
 

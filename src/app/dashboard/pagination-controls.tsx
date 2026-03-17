@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 interface PaginationControlsProps {
   currentPage: number;
@@ -6,11 +6,8 @@ interface PaginationControlsProps {
   onPageChange: (page: number) => void;
 }
 
-export default function PaginationControls({
-  currentPage,
-  totalPages,
-  onPageChange,
-}: PaginationControlsProps) {
+export default function PaginationControls({currentPage,totalPages,onPageChange,}: PaginationControlsProps) {
+  
   if (totalPages <= 1) {
     return null;
   }
