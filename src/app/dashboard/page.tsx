@@ -1,7 +1,7 @@
 'use client';
 
 import Link from "next/link";
-import { useDeferredValue, useEffect, useState } from "react";
+import { useDeferredValue, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import api from "@/lib/api";
 import PaginationControls from "@/app/dashboard/pagination-controls";
@@ -25,9 +25,16 @@ interface TasksResponse {
   };
 }
 
+interface CurrentUser {
+  id: string;
+  name: string;
+  email: string;
+}
+
 export default function Dashboard() {
   const router = useRouter();
   const [tasks, setTasks] = useState<Task[]>([]);
+  const [user, setUser] = useState<CurrentUser | null>(null);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [editId, setEditId] = useState<string | null>(null);
@@ -37,8 +44,18 @@ export default function Dashboard() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [totalTasks, setTotalTasks] = useState(0);
+  const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
+  const [isAuthReady, setIsAuthReady] = useState(false);
   const deferredSearch = useDeferredValue(search);
   const tasksPerPage = 5;
+  const profileMenuRef = useRef<HTMLDivElement | null>(null);
+
+  const userInitial = user?.name?.trim().charAt(0).toUpperCase() || "U";
+
+  const fetchCurrentUser = async () => {
+    const res = await api.get<{ user: CurrentUser }>("/auth/me");
+    setUser(res.data.user);
+  };
 
   const fetchTasks = async (page = currentPage, searchTerm = deferredSearch) => {
     setLoading(true);
@@ -66,16 +83,47 @@ export default function Dashboard() {
   };
 
   useEffect(() => {
-    if (typeof window !== "undefined" && !localStorage.getItem("token")) {
+    const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
+
+    if (!token) {
       router.replace("/login");
-    } else {
-      fetchTasks(1, deferredSearch);
+      return;
     }
-  }, [router, deferredSearch]);
+
+    fetchCurrentUser()
+      .then(() => setIsAuthReady(true))
+      .catch((err) => {
+        console.error("Failed to initialize dashboard", err);
+        localStorage.removeItem("token");
+        router.replace("/login");
+      });
+  }, [router]);
+
+  useEffect(() => {
+    if (!isAuthReady) {
+      return;
+    }
+
+    fetchTasks(1, deferredSearch);
+  }, [isAuthReady, deferredSearch]);
 
   useEffect(() => {
     setCurrentPage(1);
   }, [deferredSearch]);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (!profileMenuRef.current?.contains(event.target as Node)) {
+        setIsProfileMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const handleSubmit = async () => {
     if (!title) return;
@@ -131,9 +179,16 @@ export default function Dashboard() {
     }
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    router.push("/login");
+  const handleLogout = async () => {
+    try {
+      await api.post("/auth/logout");
+    } catch (err) {
+      console.error("Failed to logout cleanly", err);
+    } finally {
+      localStorage.removeItem("token");
+      setIsProfileMenuOpen(false);
+      router.push("/login");
+    }
   };
 
   const handlePageChange = (page: number) => {
@@ -166,12 +221,45 @@ export default function Dashboard() {
               >
                 Portfolio
               </Link>
-              <button
-                onClick={handleLogout}
-                className="rounded-2xl border border-rose-400/30 bg-rose-400/10 px-5 py-3 font-semibold text-rose-100 hover:bg-rose-400/20"
-              >
-                Logout
-              </button>
+              <div className="relative" ref={profileMenuRef}>
+                <button
+                  type="button"
+                  onClick={() => setIsProfileMenuOpen((open) => !open)}
+                  className="flex items-center gap-3 rounded-2xl border border-white/15 bg-white/10 px-3 py-2 text-left hover:bg-white/15"
+                >
+                  <div className="flex h-11 w-11 items-center justify-center rounded-full bg-sky-400 text-base font-black text-slate-950">
+                    {userInitial}
+                  </div>
+                  <div className="hidden sm:block">
+                    <p className="text-sm font-semibold text-white">
+                      {user?.name || "User"}
+                    </p>
+                    <p className="text-xs text-slate-300">
+                      Profile
+                    </p>
+                  </div>
+                </button>
+
+                {isProfileMenuOpen ? (
+                  <div className="absolute right-0 top-full z-10 mt-3 w-56 rounded-3xl border border-slate-200 bg-white p-3 text-slate-900 shadow-[0_24px_70px_-30px_rgba(15,23,42,0.55)]">
+                    <div className="border-b border-slate-100 px-3 pb-3">
+                      <p className="font-semibold text-slate-900">
+                        {user?.name || "User"}
+                      </p>
+                      <p className="mt-1 text-sm text-slate-500">
+                        {user?.email || "Signed in"}
+                      </p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={handleLogout}
+                      className="mt-3 w-full rounded-2xl bg-rose-50 px-4 py-3 text-left font-semibold text-rose-700 ring-1 ring-rose-100 hover:bg-rose-100"
+                    >
+                      Logout
+                    </button>
+                  </div>
+                ) : null}
+              </div>
             </div>
           </div>
         </section>
