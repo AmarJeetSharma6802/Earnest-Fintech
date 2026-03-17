@@ -236,14 +236,14 @@ export default function Dashboard() {
                   <div className="flex h-11 w-11 items-center justify-center rounded-full bg-sky-400 text-base font-black text-slate-950">
                     {userInitial}
                   </div>
-                  <div className="hidden text-left sm:block">
+                  {/* <div className="hidden text-left sm:block">
                     <p className="text-xs uppercase tracking-[0.2em] text-slate-300">
                       Signed in
                     </p>
                     <p className="mt-1 font-semibold text-white">
                       {user?.name || "User"}
                     </p>
-                  </div>
+                  </div> */}
                 </button>
 
                 {isProfileMenuOpen ? (
