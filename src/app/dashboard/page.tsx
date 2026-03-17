@@ -1,7 +1,7 @@
 'use client';
 
 import Link from "next/link";
-import { useDeferredValue, useEffect, useState } from "react";
+import { useDeferredValue, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import api from "@/lib/api";
 import PaginationControls from "@/app/dashboard/pagination-controls";
@@ -44,7 +44,12 @@ export default function Dashboard() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [totalTasks, setTotalTasks] = useState(0);
+  const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const deferredSearch = useDeferredValue(search);
+  const profileMenuRef = useRef<HTMLDivElement | null>(null);
+  const userInitial = user?.name?.trim().charAt(0).toUpperCase() || "U";
+
+  // show page 5 
   const tasksPerPage = 5;
 
   const fetchTasks = async (page = currentPage, searchTerm = deferredSearch) => {
@@ -109,6 +114,21 @@ export default function Dashboard() {
     setCurrentPage(1);
   }, [deferredSearch]);
 
+  // logout model close when user click outside 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (!profileMenuRef.current?.contains(event.target as Node)) {
+        setIsProfileMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   const handleSubmit = async () => {
     if (!title) return;
 
@@ -150,6 +170,7 @@ export default function Dashboard() {
     }
   };
 
+  // toggle task status === completed ? pending: completed 
   const handleToggleStatus = async (id: string) => {
     setActiveTaskId(id);
     try {
@@ -169,6 +190,7 @@ export default function Dashboard() {
     } catch (err) {
       console.error("Failed to logout cleanly", err);
     } finally {
+      setIsProfileMenuOpen(false);
       localStorage.removeItem("token");
       router.push("/login");
     }
@@ -204,20 +226,45 @@ export default function Dashboard() {
               >
                 Portfolio
               </Link>
-              <div className="rounded-2xl border border-white/15 bg-white/10 px-4 py-3">
-                <p className="text-xs uppercase tracking-[0.2em] text-slate-300">
-                  Signed in
-                </p>
-                <p className="mt-1 font-semibold text-white">
-                  {user?.name || "User"}
-                </p>
+              <div className="relative" ref={profileMenuRef}>
+                <button
+                  type="button"
+                  onClick={() => setIsProfileMenuOpen((open) => !open)}
+                  className="flex items-center gap-3 rounded-2xl border border-white/15 bg-white/10 px-3 py-2 hover:bg-white/15"
+                >
+                  <div className="flex h-11 w-11 items-center justify-center rounded-full bg-sky-400 text-base font-black text-slate-950">
+                    {userInitial}
+                  </div>
+                  <div className="hidden text-left sm:block">
+                    <p className="text-xs uppercase tracking-[0.2em] text-slate-300">
+                      Signed in
+                    </p>
+                    <p className="mt-1 font-semibold text-white">
+                      {user?.name || "User"}
+                    </p>
+                  </div>
+                </button>
+
+                {isProfileMenuOpen ? (
+                  <div className="absolute right-0 top-full z-10 mt-3 w-56 rounded-3xl border border-slate-200 bg-white p-3 text-slate-900 shadow-[0_24px_70px_-30px_rgba(15,23,42,0.55)]">
+                    <div className="border-b border-slate-100 px-3 pb-3">
+                      <p className="text-xs uppercase tracking-[0.2em] text-slate-400">
+                        Signed in as
+                      </p>
+                      <p className="mt-1 font-semibold text-slate-900">
+                        {user?.name || "User"}
+                      </p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={handleLogout}
+                      className="mt-3 w-full rounded-2xl bg-rose-50 px-4 py-3 text-left font-semibold text-rose-700 ring-1 ring-rose-100 hover:bg-rose-100"
+                    >
+                      Logout
+                    </button>
+                  </div>
+                ) : null}
               </div>
-              <button
-                onClick={handleLogout}
-                className="rounded-2xl border border-rose-400/30 bg-rose-400/10 px-5 py-3 font-semibold text-rose-100 hover:bg-rose-400/20"
-              >
-                Logout
-              </button>
             </div>
           </div>
         </section>
