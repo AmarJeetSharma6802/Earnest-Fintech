@@ -231,7 +231,7 @@ export default function Dashboard() {
                 <button
                   type="button"
                   onClick={() => setIsProfileMenuOpen((open) => !open)}
-                  className="flex items-center gap-3 rounded-2xl border cursor-pointer"
+                  className="flex items-center gap-3 rounded-2xl  cursor-pointer"
                 >
                   <div className="flex h-11 w-11 items-center justify-center rounded-full bg-sky-400 text-base font-black text-slate-950">
                     {userInitial}
