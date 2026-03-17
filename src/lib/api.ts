@@ -1,10 +1,21 @@
 import axios from 'axios';
 
-const rawBaseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+const DEFAULT_LOCAL_API_ORIGIN = 'http://localhost:5000';
 
-const normalizedBaseUrl = rawBaseUrl.endsWith('/api')
-  ? rawBaseUrl
-  : `${rawBaseUrl.replace(/\/+$/, '')}/api`;
+const stripApiSuffix = (value: string) =>
+  value
+    .trim()
+    .replace(/\/+$/, '')
+    .replace(/\/api$/i, '');
+
+const configuredApiOrigin = process.env.NEXT_PUBLIC_API_URL
+  ? stripApiSuffix(process.env.NEXT_PUBLIC_API_URL)
+  : DEFAULT_LOCAL_API_ORIGIN;
+
+const normalizedBaseUrl =
+  typeof window === 'undefined'
+    ? `${configuredApiOrigin}/api`
+    : '/api';
 
 const api = axios.create({
   baseURL: normalizedBaseUrl,
