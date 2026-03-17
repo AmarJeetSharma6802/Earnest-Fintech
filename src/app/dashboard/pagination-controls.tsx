@@ -18,12 +18,12 @@ export default function PaginationControls({currentPage,totalPages,onPageChange,
         Page {currentPage} of {totalPages}
       </p>
 
-      <div className="flex gap-3 cursor-pointer">
+      <div className="flex gap-3 ">
         <button
           type="button"
           onClick={() => onPageChange(currentPage - 1)}
           disabled={currentPage === 1}
-          className="rounded-2xl bg-white px-4 py-2 font-semibold text-slate-700 ring-1 ring-slate-200 hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-50"
+          className="rounded-2xl bg-white px-4 py-2 font-semibold text-slate-700 ring-1 ring-slate-200 hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-50 cursor-pointer"
         >
           Previous
         </button>
@@ -31,7 +31,7 @@ export default function PaginationControls({currentPage,totalPages,onPageChange,
           type="button"
           onClick={() => onPageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
-          className="rounded-2xl bg-slate-950 px-4 py-2 font-semibold text-white hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-50"
+          className="rounded-2xl bg-slate-950 px-4 py-2 font-semibold text-white hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-50 cursor-pointer"
         >
           Next
         </button>
