@@ -86,15 +86,15 @@ const [start, setStart] = useState(false);
           <Image src="https://images.pexels.com/photos/36035002/pexels-photo-36035002.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="" width={350} height={300} className="w-full h-[480px] rounded-4xl " />
         </div>
         <div className="w-1/2">
-        <h2 className="text-[#22497D] uppercase font-bold text-[13px] bg-blue-200 p-1 absolute rounded-sm">The bridge between hospital and home</h2>
+        <h2 className="text-[#22497D] uppercase  text-[13px] bg-blue-200 p-1 absolute rounded-sm">The bridge between hospital and home</h2>
         <h1 className="text-[2.8rem] leading-12 font-bold py-3 mt-5">A calmer, safer way to recover <span className="text-[#22497D]"> supervised, structured, warm.</span></h1>
-        <p className="text-[20px] max-w-[580px]">Transition Care Center is a specialised recovery facility for patients who are stable enough to leave the hospital but still need continuous medical care. We deliver clinical precision with the warmth of a home, so recovery doesn't stall the moment discharge papers are signed.</p>
+        <p className="text-[20px] max-w-[580px] text-gray-400">Transition Care Center is a specialised recovery facility for patients who are stable enough to leave the hospital but still need continuous medical care. We deliver clinical precision with the warmth of a home, so recovery doesn't stall the moment discharge papers are signed.</p>
         <div className="pt-2">
           <ul>
-            <li className="flex gap-3 py-1"><CheckCircle className="text-[#22497D]" />Hospital-grade care without the hospital chaos</li>
-            <li  className="flex gap-3 py-1"><CheckCircle className="text-[#22497D]" />Structured recovery protocols for faster healing</li>
-            <li className="flex gap-3 py-1"><CheckCircle className="text-[#22497D]" />Your family focuses on presence, not procedures</li>
-            <li className="flex gap-3 py-1"><CheckCircle className="text-[#22497D]" />Lower risk of readmission and infection</li>
+            <li className="flex gap-3 py-1  text-gray-400"><CheckCircle className="text-[#22497D]" />Hospital-grade care without the hospital chaos</li>
+            <li  className="flex gap-3 py-1 text-gray-400"><CheckCircle className="text-[#22497D]" />Structured recovery protocols for faster healing</li>
+            <li className="flex gap-3 py-1 text-gray-400"><CheckCircle className="text-[#22497D]" />Your family focuses on presence, not procedures</li>
+            <li className="flex gap-3 py-1 text-gray-400"><CheckCircle className="text-[#22497D]" />Lower risk of readmission and infection</li>
           </ul>
         </div>
         <button className="p-4 bg-[#22497D] text-amber-50 mt-3 rounded-2xl text-[18px] cursor-pointer">How can help you</button>
