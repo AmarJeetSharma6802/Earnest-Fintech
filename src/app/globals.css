@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-:root {
+/* :root {
   --background: #f5f7fb;
   --foreground: #111827;
 }
@@ -8,9 +8,8 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0b1220;
-    --foreground: #e5eefc;
   }
-}
+} */
 
 * {
   box-sizing: border-box;
@@ -21,15 +20,15 @@ html {
 }
 
 body {
-  background-color: var(--background);
-  color: var(--foreground);
-  -webkit-font-smoothing: antialiased;
+  /* background-color: var(--background); */
+  /* color: var(--foreground); */
+  /* -webkit-font-smoothing: antialiased; */
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
 }
-
+/* 
 body::selection {
   background: rgba(37, 99, 235, 0.18);
-}
+} */
 
 a,
 button,
@@ -41,4 +40,26 @@ textarea {
     color 0.2s ease,
     box-shadow 0.2s ease,
     transform 0.2s ease;
+}
+.sec-h2{
+  position: relative;
+}
+
+.sec-h2::after{
+  content: "";
+  position: absolute;
+  top: 50%;
+  height: 1px;
+  width: 40px;
+  right: 33%;
+  background-color: #22497D;
+}
+.sec-h2::before{
+  content: "";
+  position: absolute;
+  top: 50%;
+  height: 1px;
+  width: 40px;
+  left: 33%;
+  background-color: #22497D;
 }
