@@ -49,17 +49,17 @@ textarea {
   content: "";
   position: absolute;
   top: 50%;
-  height: 1px;
+  height: 2px;
   width: 40px;
-  right: 33%;
+  right: 35%;
   background-color: #22497D;
 }
 .sec-h2::before{
   content: "";
   position: absolute;
   top: 50%;
-  height: 1px;
+  height: 2px;
   width: 40px;
-  left: 33%;
+  left: 35%;
   background-color: #22497D;
 }

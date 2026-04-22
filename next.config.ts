@@ -14,7 +14,12 @@ const configuredApiOrigin = stripApiSuffix(
     DEFAULT_LOCAL_API_ORIGIN,
 );
 
+
+
 const nextConfig: NextConfig = {
+    images: {
+    domains: ["images.pexels.com"], 
+  },
   async rewrites() {
     return [
       {

@@ -4,15 +4,15 @@ import { PhoneOutgoing ,Calendar} from "lucide-react";
 
 function FirstSection() {
   return (
-    <div className='max-w-7xl mx-auto flex items-center gap-4 px-6 py-12 max-w-[92vw] m-auto pt-[95px]'>
+    <div className='max-w-7xl mx-auto flex items-center gap-4 px-6 py-12 max-w-[90vw] m-auto pt-[95px]'>
 
   {/* LEFT */}
-  <div className='w-[55%]'>
+  <div className='w-[50%]'>
     <p className='uppercase bg-blue-100 inline-block px-3 py-1 rounded text-blue-700 text-sm'>
       Better care. Safe Recovery
     </p>
 
-    <h1 className='text-4xl font-bold py-4 leading-tight'>
+    <h1 className='text-6xl font-bold py-4 leading-tight'>
       Discharged Too Early? Recover Safely With{" "}
       <span className='text-[#2A5795]'>Medical Support</span>
     </h1>
@@ -53,8 +53,8 @@ function FirstSection() {
 
 
   {/* RIGHT (FIXED FORM) */}
-  <div className='w-[45%] flex justify-end'>
-    <form className='w-[360px] bg-gradient-to-br from-[#2A5795] to-[#31B8AC] p-6 rounded-xl shadow-lg mr-4'>
+  <div className='w-[50%] flex justify-end'>
+    <form className='w-[460px] bg-gradient-to-br from-[#2A5795] to-[#31B8AC] p-6 rounded-xl shadow-lg mr-4'>
 
       <h2 className='text-center text-lg font-semibold text-white mb-4'>
         Book a Free Consultation
