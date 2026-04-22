@@ -18,7 +18,11 @@ const configuredApiOrigin = stripApiSuffix(
 
 const nextConfig: NextConfig = {
     images: {
-    domains: ["images.pexels.com"], 
+    domains: [
+      "images.unsplash.com",
+      "images.pexels.com",
+      "static.prod-images.emergentagent.com"
+    ],
   },
   async rewrites() {
     return [
