@@ -84,6 +84,7 @@ function FirstSection() {
           Request Call Back Now
         </button>
 
+        <p className=' text-center text-white'>By proceeding, you accept Transition Care Center Privacy Policy & Disclaimer</p>
       </div>
     </form>
   </div>
