@@ -1,5 +1,6 @@
 @import "tailwindcss";
 
+
 /* :root {
   --background: #f5f7fb;
   --foreground: #111827;
@@ -62,4 +63,17 @@ textarea {
   width: 40px;
   left: 35%;
   background-color: #22497D;
+}
+
+.swiper-pagination {
+  /* bottom: -10px !important; */
+}
+
+.swiper-slide {
+  height: auto !important;
+  display: flex;
+}
+
+.swiper-slide > div {
+  height: auto;
 }

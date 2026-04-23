@@ -20,6 +20,25 @@ export default function FacilitySection() {
     text: "Infection control protocols",
   },
 ];
+
+const safe =[
+  {
+    img: "/Safe_1.png",
+    text: "Experienced doctors & nurses",
+  },
+  {
+    img: "/Safe_2.png",
+    text: "24/7 monitoring",
+  },
+  {
+    img: "/Safe_3.png",
+    text: "Personalized recovery plans",
+  },
+  {
+    img: "/Safe_4.png",
+    text: "Safe environment",
+  },
+]
   return (
     <div className="bg-white py-16 px-6 md:px-16">
 
@@ -108,6 +127,46 @@ export default function FacilitySection() {
         );
       })}
       </div>
+
+      {/* SAFE BAR */}
+      <div className="relative p-8 mt-16">
+    <h1 className="text-center sec-h2 text-[#22497D] font-bold text-[17px] uppercase">Safe & Reliable Recovery Care</h1>
+    <h2 className="text-center my-3 text-2xl font-bold">We ensure your loved one receives continuous care until full recovery.</h2>
+<div className="w-full bg-gray-100 py-6 mt-4">
+  <div className="max-w-7xl mx-auto flex flex-wrap md:flex-nowrap justify-between items-center gap-6 px-4">
+
+    {safe.map((item, i) => (
+      <div
+        key={i}
+        className="flex items-center gap-4 w-full md:w-auto justify-center md:justify-start"
+      >
+        {/* ICON */}
+        <div className="w-15 h-12 relative">
+          <Image
+            src={item.img}
+            alt={item.text}
+            fill
+            className="object-contain"
+          />
+        </div>
+
+        {/* TEXT */}
+        <p className="text-sm md:text-base font-medium text-gray-600 whitespace-nowrap">
+          {item.text}
+        </p>
+
+        {/* DIVIDER (last item pe nahi) */}
+        {i !== safe.length - 1 && (
+          <div className="hidden md:block h-10 w-px bg-gray-400 ml-4"></div>
+        )}
+      </div>
+    ))}
+
+  </div>
+</div>
+<button className="bg-[#22497D] p-4 rounded-sm absolute left-[45%] my-4 text-amber-50 cursor-pointer">GET IN TOUCH</button>
+</div>
+
     </div>
   );
 }
