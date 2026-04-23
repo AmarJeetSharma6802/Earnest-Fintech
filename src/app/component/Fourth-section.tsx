@@ -72,7 +72,7 @@ export default function FourthSection() {
         </div>
 
         {/* 🟢 RIGHT SIDE (70%) */}
-        <div className="md:col-span-7 pb-4">
+        <div className="md:col-span-7  pb-4">
           <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6">
             What Families Say
           </h2>
