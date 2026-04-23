@@ -3,7 +3,18 @@ import { Phone, CalendarDays, Clock, ArrowRight } from "lucide-react";
 
 function Footer() {
   return (
-    <footer className="bg-[#22497D] text-white mt-16">
+    <>
+   <div className="w-full h-[300px] md:h-[450px] block">
+  <iframe
+    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3171.563813048574!2d77.21056767495368!3d28.54897308787126!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390ce300740f6fc5%3A0xc1e6314d0af3219f!2sSmall%20box%20office!5e1!3m2!1sen!2sin!4v1776944194328!5m2!1sen!2sin"
+    className="w-full h-full border-0 rounded-lg"
+    allowFullScreen
+    loading="lazy"
+    referrerPolicy="no-referrer-when-downgrade"
+  ></iframe>
+</div>
+
+    <footer className="bg-[#22497D] text-white ">
 
       <div className="max-w-7xl mx-auto px-6 py-6 flex flex-col md:flex-row items-center justify-between gap-6">
 
@@ -51,6 +62,7 @@ function Footer() {
       </div>
 
     </footer>
+    </>
   );
 }
 
