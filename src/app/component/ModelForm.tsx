@@ -48,6 +48,7 @@ function ModelForm() {
       const res = await api.post("/auth/book", formData);
 
       toast.success(res.data.message || "Booking successful ✅");
+      alert(res.data.message || "Booking successful ✅");
 
       setFormData({
         fullName: "",
@@ -64,6 +65,7 @@ function ModelForm() {
     } catch (error: any) {
       console.error(error);
       toast.error(error?.response?.data?.message || "Something went wrong ❌");
+      alert(error?.response?.data?.message || "Something went wrong ❌");
     } finally {
       setLoading(false);
     }
