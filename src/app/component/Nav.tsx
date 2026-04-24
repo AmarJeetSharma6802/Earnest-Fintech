@@ -1,10 +1,13 @@
 "use client"
 import React, { useEffect, useState } from 'react'
 import { Phone } from "lucide-react";
+import { useModal } from '../ModalProvider';
 
 function Nav() {
 
   const [isScroll, setIsscroll] = useState<boolean>(false)
+  const { openModal } = useModal();
+
 
   useEffect(() => {
     const handleScroll = () => {
@@ -33,11 +36,11 @@ function Nav() {
 
       {/* RIGHT */}
       <ul className='flex gap-4 items-center'>
-        <li className='flex gap-2 bg-[#283583] text-white px-4 py-2 rounded-md'>
-          <Phone size={18} /> 91+ 8884451XX
-        </li>
+        <a href="tel:+9188822233665" className='flex gap-2 bg-[#283583] text-white px-4 py-2 rounded-md items-center'>
+          <Phone size={18} /> + {""}91 8884451784
+        </a>
 
-        <li className='bg-[#31B8AC] px-4 py-2 rounded-md text-white cursor-pointer'>
+        <li className='bg-[#31B8AC] px-4 py-2 rounded-md text-white cursor-pointer' onClick={openModal}>
           Book Appointment
         </li>
       </ul>

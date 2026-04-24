@@ -1,7 +1,12 @@
+"use client"
 import Image from "next/image";
 import { Sparkles, Stethoscope, Home, ShieldCheck } from "lucide-react";
+import { useModal } from "../ModalProvider";
 
 export default function FacilitySection() {
+
+  const { openModal } = useModal();
+
     const features = [
   {
     icon: Sparkles,
@@ -164,7 +169,7 @@ const safe =[
 
   </div>
 </div>
-<button className="bg-[#22497D] p-4 rounded-sm absolute left-[45%] my-4 text-amber-50 cursor-pointer">GET IN TOUCH</button>
+<button onClick={openModal} className="bg-[#22497D] p-4 rounded-sm absolute left-[45%] my-4 text-amber-50 cursor-pointer">GET IN TOUCH</button>
 </div>
 
     </div>

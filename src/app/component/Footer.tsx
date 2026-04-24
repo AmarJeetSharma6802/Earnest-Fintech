@@ -1,7 +1,12 @@
+"use client"
 import React from "react";
 import { Phone, CalendarDays, Clock, ArrowRight } from "lucide-react";
 
-function Footer() {
+ import { useModal } from "../ModalProvider";
+
+ function Footer() {
+   const { openModal } = useModal();
+
   return (
     <>
    <div className="w-full h-[300px] md:h-[450px] block">
@@ -49,7 +54,7 @@ function Footer() {
         </div>
 
         <div>
-          <button className="bg-white text-[#22497D] px-5 py-2 rounded-lg flex items-center gap-2 font-medium hover:bg-gray-100 transition">
+          <button onClick={openModal} className="bg-white text-[#22497D] px-5 py-2 rounded-lg flex items-center gap-2 font-medium hover:bg-gray-100 transition">
             Get in Touch
             <ArrowRight size={18} />
           </button>

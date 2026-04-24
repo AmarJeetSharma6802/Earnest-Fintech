@@ -7,6 +7,7 @@ import FourthSection from '../component/Fourth-section'
 import FivthSection from '../component/Fivth-section'
 import { Phone, MessageCircle } from "lucide-react";
 import Footer from '../component/Footer'
+import ModelForm from '../component/ModelForm'
 
 function page() {
   return (
@@ -18,6 +19,7 @@ function page() {
         <FourthSection/>
         <FivthSection/>
         <Footer/>
+        <ModelForm/>
 
 
          <div className="fixed bottom-6 right-6 flex flex-col gap-3 z-50">
