@@ -2,10 +2,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import { X } from "lucide-react";
 import { useModal } from "../ModalProvider";
-import api from "@/lib/api"; // 👈 tumhara axios instance
+import api from "@/lib/api";
+import toast from "react-hot-toast";
 
 function ModelForm() {
   const { isOpen, closeModal } = useModal();
+
   const modalRef = useRef<HTMLDivElement | null>(null);
 
   const [formData, setFormData] = useState({
@@ -19,7 +21,6 @@ function ModelForm() {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
-  // 👉 Outside click close
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
@@ -33,17 +34,10 @@ function ModelForm() {
 
   if (!isOpen) return null;
 
-  // 👉 Handle input change
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,) => {
+    setFormData({...formData,[e.target.name]: e.target.value,});
   };
 
-  // 👉 Submit
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -53,9 +47,8 @@ function ModelForm() {
 
       const res = await api.post("/auth/book", formData);
 
-      setMessage(res.data.message || "Booking successful ✅");
+      toast.success(res.data.message || "Booking successful ✅");
 
-      // reset form
       setFormData({
         fullName: "",
         phone: "",
@@ -64,14 +57,13 @@ function ModelForm() {
         time: "",
       });
 
-      // auto close after 2 sec
       setTimeout(() => {
         closeModal();
       }, 2000);
 
     } catch (error: any) {
       console.error(error);
-      setMessage(error?.response?.data?.message || "Something went wrong ❌");
+      toast.error(error?.response?.data?.message || "Something went wrong ❌");
     } finally {
       setLoading(false);
     }
@@ -79,12 +71,10 @@ function ModelForm() {
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50 px-4">
-      
       <div
         ref={modalRef}
         className="relative w-full max-w-md rounded-2xl bg-gradient-to-br from-[#2A5795] to-[#31B8AC] p-6 text-white"
       >
-        {/* ❌ Close */}
         <button
           onClick={closeModal}
           className="absolute top-4 right-4 cursor-pointer"
@@ -97,8 +87,6 @@ function ModelForm() {
         </h2>
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          
-          {/* Name */}
           <input
             name="fullName"
             value={formData.fullName}
@@ -108,7 +96,6 @@ function ModelForm() {
             required
           />
 
-          {/* Phone */}
           <input
             name="phone"
             value={formData.phone}
@@ -118,7 +105,6 @@ function ModelForm() {
             required
           />
 
-          {/* City */}
           <select
             name="city"
             value={formData.city}
@@ -138,7 +124,6 @@ function ModelForm() {
             <option className="text-black">UP</option>
           </select>
 
-          {/* Date */}
           <input
             type="date"
             name="date"
@@ -148,7 +133,6 @@ function ModelForm() {
             required
           />
 
-          {/* Time */}
           <input
             type="time"
             name="time"
@@ -158,7 +142,6 @@ function ModelForm() {
             required
           />
 
-          {/* Submit */}
           <button
             disabled={loading}
             className="w-full bg-white text-black py-2 rounded font-semibold"
@@ -166,10 +149,7 @@ function ModelForm() {
             {loading ? "Booking..." : "Submit"}
           </button>
 
-          {/* Message */}
-          {message && (
-            <p className="text-center text-sm mt-2">{message}</p>
-          )}
+          {message && <p className="text-center text-sm mt-2">{message}</p>}
 
           <p className="text-center text-xs mt-2">
             By proceeding, you accept Transition Care Center Privacy Policy &
