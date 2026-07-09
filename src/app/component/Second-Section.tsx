@@ -55,7 +55,7 @@ function SecondSection() {
                     src={item.image}
                     alt={item.label}
                     fill
-                    sizes="64px"
+                    sizes="74px"
                     className="object-contain p-1.5"
                   />
                 </div>
