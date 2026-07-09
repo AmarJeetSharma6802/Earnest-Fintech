@@ -1,177 +1,101 @@
 "use client"
+import React from "react";
 import Image from "next/image";
-import { Sparkles, Stethoscope, Home, ShieldCheck } from "lucide-react";
 import { useModal } from "../ModalProvider";
+import {
+  ClipboardList, FileSearch, ListChecks, Hospital, HeartPulse,
+  ArrowRight, Stethoscope, CalendarCheck
+} from "lucide-react";
 
 export default function FacilitySection() {
-
   const { openModal } = useModal();
 
-    const features = [
-  {
-    icon: Sparkles,
-    text: "Clean & hygienic rooms",
-  },
-  {
-    icon: Stethoscope,
-    text: "Medical equipment on-site",
-  },
-  {
-    icon: Home,
-    text: "Comfortable, home-like feel",
-  },
-  {
-    icon: ShieldCheck,
-    text: "Infection control protocols",
-  },
-];
+  const doctors = [
+    { name: "Dr. Rajesh Kumar", qualification: "MD, DM Oncology", specialty: "Medical Oncology", experience: "15+ Years", image: "/doctor.png" },
+    { name: "Dr. Neha Sharma", qualification: "MS, MCh Surgical Oncology", specialty: "Surgical Oncology", experience: "12+ Years", image: "/doctor.png" },
+    { name: "Dr. Amit Verma", qualification: "MD, Radiation Oncology", specialty: "Radiation Oncology", experience: "10+ Years", image: "/doctor.png" },
+    { name: "Dr. Pooja Mehta", qualification: "MD, Hematology", specialty: "Hematology Oncology", experience: "8+ Years", image: "/doctor.png" },
+  ];
 
-const safe =[
-  {
-    img: "/Safe_1.png",
-    text: "Experienced doctors & nurses",
-  },
-  {
-    img: "/Safe_2.png",
-    text: "24/7 monitoring",
-  },
-  {
-    img: "/Safe_3.png",
-    text: "Personalized recovery plans",
-  },
-  {
-    img: "/Safe_4.png",
-    text: "Safe environment",
-  },
-]
+  const journeySteps = [
+    { icon: ClipboardList, title: "Book Consultation" },
+    { icon: FileSearch, title: "Doctor Reviews Your Reports" },
+    { icon: ListChecks, title: "Personalized Treatment Plan" },
+    { icon: Hospital, title: "Hospital Admission" },
+    { icon: Stethoscope, title: "Treatment Begins" },
+    { icon: HeartPulse, title: "Follow-up & Recovery Care" },
+  ];
+
   return (
-    <div className="bg-white py-16 px-6 md:px-16">
+    <>
+      <section id="doctors" className="py-12 md:py-14 bg-white">
+        <div className="max-w-7xl mx-auto px-4 md:px-6">
+          <div className="text-center mb-9">
+            <h2 className="text-2xl md:text-3xl font-extrabold text-[#1a2547]">
+              Meet Our Expert Oncologists
+            </h2>
+          </div>
 
-      {/* TOP TEXT */}
-      <div className="max-w-7xl mx-auto mb-10 ">
-        <p className="text-[#2f3b7c] font-semibold uppercase text-sm tracking-wider bg-blue-100 p-1 max-w-[120px] rounded-sm">
-          Our Facility
-        </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {doctors.map((doc, i) => (
+              <div key={i} className="card-shell hover-lift rounded-xl p-4">
+                <div className="flex items-center gap-4">
+                  <div className="h-24 w-24 shrink-0 overflow-hidden rounded-lg bg-slate-50">
+                    <Image src={doc.image} alt={doc.name} width={120} height={120} className="h-full w-full object-contain" />
+                  </div>
 
-        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mt-2 leading-tight">
-          A place designed for healing  <br /> not waiting.
-        </h2>
+                  <div className="min-w-0 flex-1">
+                    <h3 className="font-extrabold text-[#1a2547] text-sm leading-tight">{doc.name}</h3>
+                    <p className="text-[11px] text-slate-500 mt-1">{doc.qualification}</p>
+                    <div className="mt-3 space-y-1.5 text-[11px] text-slate-500">
+                      <p className="flex items-center gap-1.5"><CalendarCheck size={12} className="text-[#1B8C5C]" />{doc.experience} Experience</p>
+                      <p className="flex items-center gap-1.5"><Stethoscope size={12} className="text-[#1B8C5C]" />{doc.specialty}</p>
+                    </div>
+                  </div>
+                </div>
 
-        <p className="text-gray-500 mt-3 max-w-xl">
-          Spacious rooms, natural light, medical-grade hygiene and thoughtful
-          little details that help patients rest and recover.
-        </p>
-      </div>
+                <button onClick={openModal} className="mt-4 w-full rounded-md bg-[#1B8C5C] px-4 py-2.5 text-xs font-bold text-white shadow-[0_10px_24px_rgba(27,140,92,0.2)] hover:bg-[#157a4e] transition-all">
+                  Book Appointment
+                </button>
+              </div>
+            ))}
+          </div>
 
-      {/* IMAGE GRID */}
-      <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-6">
- 
-        {/* LEFT BIG IMAGE */}
-        <div className="relative rounded-2xl overflow-hidden shadow-md h-[665px] ">
-          <Image
-            src="https://static.prod-images.emergentagent.com/jobs/20a27312-c5fe-4787-ba9d-150065465002/images/c63ed3a81677f8434ca3e5cc210e0ed2bd4d4dfe1412bad0fd432435424fa7f6.png"
-            alt="room"
-            width={800}
-            height={400}
-            className="w-full h-full object-cover"
-          />
-
-          {/* Overlay label */}
-          <div className="absolute bottom-4 left-4 bg-white px-4 py-2 rounded-lg shadow text-sm">
-            <p className="font-semibold text-[#2f3b7c]">
-              Private recovery rooms
-            </p>
-            <p className="text-xs text-gray-500">
-              With attendant bed
-            </p>
+          <div className="text-center mt-7">
+            <button className="inline-flex items-center gap-1 rounded-md border border-[#1a2547]/20 px-6 py-2 text-[#1a2547] font-bold text-xs hover:bg-[#1a2547] hover:text-white transition-all">
+              View All Doctors <ArrowRight size={13} />
+            </button>
           </div>
         </div>
+      </section>
 
-        {/* RIGHT SIDE */}
-        <div className="flex flex-col gap-6">
-
-          {/* TOP IMAGE */}
-          <div className="rounded-2xl overflow-hidden shadow-md h-[320px]">
-            <Image
-              src="https://images.unsplash.com/photo-1710698936989-500f359c6482"
-              alt="hospital"
-              width={400}
-              height={250}
-              className="w-full h-full object-cover"
-            />
+      <section id="treatment" className="py-12 md:py-14 soft-section">
+        <div className="max-w-7xl mx-auto px-4 md:px-6">
+          <div className="text-center mb-10">
+            <h2 className="text-2xl md:text-3xl font-extrabold text-[#1a2547]">
+              Our Treatment Journey
+            </h2>
           </div>
 
-          {/* BOTTOM IMAGE */}
-          <div className="rounded-2xl overflow-hidden shadow-md h-[320px]">
-            <Image
-              src="https://images.pexels.com/photos/20860587/pexels-photo-20860587.jpeg"
-              alt="therapy"
-              width={400}
-              height={250}
-              className="w-full h-full object-cover"
-            />
+          <div className="grid grid-cols-2 md:grid-cols-6 gap-6 max-w-6xl mx-auto relative">
+            <div className="hidden md:block absolute top-8 left-[8%] right-[8%] h-px border-t border-dashed border-slate-300" />
+            {journeySteps.map((step, i) => {
+              const Icon = step.icon;
+              return (
+                <div key={i} className="relative z-10 flex flex-col items-center text-center">
+                  <div className="w-16 h-16 bg-white border border-slate-200 rounded-full flex items-center justify-center mb-3 shadow-[0_10px_26px_rgba(15,23,42,0.08)]">
+                    <Icon size={24} className="text-[#1a2547]" />
+                  </div>
+                  <div className="mb-2 flex h-5 w-5 items-center justify-center rounded-full bg-[#1B8C5C] text-[10px] font-bold text-white">
+                    {i + 1}
+                  </div>
+                  <p className="text-[11px] sm:text-xs font-extrabold text-[#1a2547] leading-tight max-w-[120px]">{step.title}</p>
+                </div>
+              );
+            })}
           </div>
-
         </div>
-      </div>
-
-      {/* FEATURES BAR */}
-      <div className="max-w-6xl mx-auto mt-10 grid md:grid-cols-4 gap-4">
-        {features.map((item, i) => {
-        const Icon = item.icon;
-        return (
-          <div
-            key={i}
-            className="flex items-center gap-3  rounded-xl px-5 py-3 bg-white shadow-sm hover:shadow-md transition"
-          >
-            <Icon className="text-[#2f3b7c]" size={18}  />
-            <span className="text-sm font-medium text-gray-700">
-              {item.text}
-            </span>
-          </div>
-        );
-      })}
-      </div>
-
-      {/* SAFE BAR */}
-      <div className="relative p-8 mt-16">
-    <h1 className="text-center sec-h2 text-[#22497D] font-bold text-[17px] uppercase">Safe & Reliable Recovery Care</h1>
-    <h2 className="text-center my-3 text-2xl font-bold">We ensure your loved one receives continuous care until full recovery.</h2>
-<div className="w-full bg-gray-100 py-6 mt-4">
-  <div className="max-w-7xl mx-auto flex flex-wrap md:flex-nowrap justify-between items-center gap-6 px-4">
-
-    {safe.map((item, i) => (
-      <div
-        key={i}
-        className="flex items-center gap-4 w-full md:w-auto justify-center md:justify-start"
-      >
-        {/* ICON */}
-        <div className="w-15 h-12 relative">
-          <Image
-            src={item.img}
-            alt={item.text}
-            fill
-            className="object-contain"
-          />
-        </div>
-
-        {/* TEXT */}
-        <p className="text-sm md:text-base font-medium text-gray-600 whitespace-nowrap">
-          {item.text}
-        </p>
-
-        {/* DIVIDER (last item pe nahi) */}
-        {i !== safe.length - 1 && (
-          <div className="hidden md:block h-10 w-px bg-gray-400 ml-4"></div>
-        )}
-      </div>
-    ))}
-
-  </div>
-</div>
-<button onClick={openModal} className="bg-[#22497D] p-4 rounded-sm absolute left-[45%] my-4 text-amber-50 cursor-pointer">GET IN TOUCH</button>
-</div>
-
-    </div>
+      </section>
+    </>
   );
 }

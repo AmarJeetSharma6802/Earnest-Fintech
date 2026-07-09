@@ -1,23 +1,20 @@
 
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Poppins } from "next/font/google";
 import "./globals.css";
 import {ModalProvider} from "../app/ModalProvider"
 import { Toaster } from "react-hot-toast";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const poppins = Poppins({
+  weight: ['300', '400', '500', '600', '700', '800'],
+  subsets: ['latin'],
+  display: 'swap',
 });
 
 export const metadata: Metadata = {
-  title: "Earnest Fintech",
-  description: "Task management dashboard for Earnest Fintech Limited",
+  title: "CancerCare - Cancer Treatment Starts with the Right Expert",
+  description: "Get expert cancer treatment with free first consultation. Comprehensive care for all major types of cancer by top oncologists in India.",
+  keywords: "cancer treatment, oncologist, cancer care, chemotherapy, radiation therapy, cancer specialist, free consultation",
 };
 
 export default function RootLayout({
@@ -27,10 +24,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={poppins.className}>
         <ModalProvider>
+        <Toaster position="top-right" />
         {children}
         </ModalProvider>
       </body>

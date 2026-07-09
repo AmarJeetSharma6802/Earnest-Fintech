@@ -1,131 +1,104 @@
 "use client"
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import Image from "next/image";
-import { CheckCircle } from "lucide-react";
+import { useModal } from "../ModalProvider";
+import {
+  CheckCircle, Users, Microscope, HandHeart, Wallet, ShieldCheck, UserCheck, MessageSquare
+} from "lucide-react";
 
 function SecondSection() {
-  const secSection = [
-    {
-      id: 1,
-      img: "/Screenshot 2026-04-21 170256.png",
-      heading: "Post-Surgery Recovery Care",
-      para: "We ensure your loved one receives continuous care until full recovery.",
-    },
-    {
-      id: 2,
-      img: "/Screenshot 2026-04-21 170314.png",
-      heading: "24/7 monitoring",
-      para: "We ensure your loved one receives continuous care until full recovery.",
-    },
-    {
-      id: 3,
-      img: "/Screenshot 2026-04-21 170328.png",
-      heading: "Personalized recovery plans",
-      para: "We ensure your loved one receives continuous care until full recovery.",
-    },
-    {
-      id: 4,
-      img: "/Screenshot 2026-04-21 170341.png",
-      heading: "Safe environment",
-      para: "We ensure your loved one receives continuous care until full recovery.",
-    },
+  const { openModal } = useModal();
+
+  const cancerTypes = [
+    { image: "/breastcancer.png", label: "Breast Cancer" },
+    { image: "/lung.png", label: "Lung Cancer" },
+    { image: "/bloodCancer.png", label: "Blood Cancer" },
+    { image: "/oralCancer.png", label: "Oral Cancer" },
+    { image: "/liverCancer.png", label: "Liver Cancer" },
+    { image: "/colonCancer.png", label: "Colon Cancer" },
+    { image: "/CervicalCancer.png", label: "Cervical Cancer" },
+    { image: "/ProstateCancer.png", label: "Prostate Cancer" },
   ];
-  const stats = [
-  { value: 70, suffix: "%+", label: "Success Rate" },
-  { value: 1000, suffix: "+", label: "Happy Patients" },
-  { value: 10, suffix: "+", label: "Cities" },
-  { value: 25, suffix: "+", label: "Doctors" },
-];
 
-
-
-const [start, setStart] = useState(false);
-  const ref = useRef(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) setStart(true);
-      },
-      { threshold: 0.3 }
-    );
-
-    if (ref.current) observer.observe(ref.current);
-
-    return () => observer.disconnect();
-  }, []);
+  const whyChoose = [
+    { icon: CheckCircle, title: "Free First Consultation" },
+    { icon: Users, title: "Personalized Treatment Plan" },
+    { icon: Microscope, title: "Advanced Cancer Care & Technology" },
+    { icon: HandHeart, title: "Multidisciplinary Expert Team" },
+    { icon: Wallet, title: "Affordable Treatment" },
+    { icon: ShieldCheck, title: "Insurance Assistance" },
+    { icon: UserCheck, title: "Patient Coordinator" },
+    { icon: MessageSquare, title: "Second Opinion Available" },
+  ];
 
   return (
-    <div className="bg-blue-50 h-full p-5 ">
-      <h2 className="relative text-[1.2rem] text-[#22497D] text-center font-bold sec-h2">
-        A Safe Step Between And Home
-      </h2>
-      <h1 className="text-center text-2xl py-1.5 font-bold ">
-        Complete Recovery & Care Services
-      </h1>
+    <>
+      <section id="cancer-types" className="py-12 md:py-14 bg-white">
+        <div className="max-w-7xl mx-auto px-4 md:px-6">
+          <div className="text-center mb-8">
+            <h2 className="text-2xl md:text-3xl font-extrabold text-[#1a2547]">
+              Cancer Types We Treat
+            </h2>
+            <p className="text-slate-500 text-sm mt-2 font-medium">
+              Comprehensive care for all major types of cancer
+            </p>
+          </div>
 
-      {/* <div className="grid grid-col-[repeat(4,minmax(200px ,1fr))] gap-4"> */}
-      <div className="flex gap-4 p-5 h-full">
-        {secSection.map((item) => {
-          return (
-            <div key={item.id} className="text-center bg-white p-2 rounded-sm">
-              <div  className="flex justify-center items-center">
-                <Image src={item.img} alt="" width={60} height={20}  />
-              </div>
-                <div className="p-4">
-                    <p className="text-[#22497D] font-bold text-[18px]">{item.heading}</p>
-                    <p>{item.para}</p>
+          <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3 max-w-6xl mx-auto">
+            {cancerTypes.map((item, i) => (
+              <div
+                key={i}
+                className="card-shell hover-lift flex min-h-[138px] flex-col items-center justify-center gap-3 rounded-xl p-3 text-center"
+              >
+                <div className="relative h-16 w-16 overflow-hidden rounded-full bg-[#f8fbff] border border-slate-100 shadow-sm">
+                  <Image
+                    src={item.image}
+                    alt={item.label}
+                    fill
+                    sizes="64px"
+                    className="object-contain p-1.5"
+                  />
                 </div>
-            </div>
-          );
-        })}
-      </div>
+                <p className="text-[12px] font-extrabold text-[#1a2547] leading-tight">{item.label}</p>
+              </div>
+            ))}
+          </div>
 
-      <div className="max-w-8xl m-auto p-[5rem] flex gap-8">
-        <div className="w-1/2 flex items-center justify-between">
-          <Image src="https://images.pexels.com/photos/36035002/pexels-photo-36035002.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="" width={350} height={300} className="w-full h-[480px] rounded-4xl " />
+          <div className="text-center mt-7">
+            <button
+              onClick={openModal}
+              className="inline-flex items-center gap-2 bg-[#1a2547] text-white px-8 py-2.5 rounded-md font-bold text-sm hover:bg-[#243156] shadow-[0_10px_24px_rgba(26,37,71,0.18)] transition-all"
+            >
+              Talk to Our Specialist
+            </button>
+          </div>
         </div>
-        <div className="w-1/2">
-        <h2 className="text-[#22497D] uppercase  text-[13px] bg-blue-200 p-1 absolute rounded-sm">The bridge between hospital and home</h2>
-        <h1 className="text-[2.8rem] leading-12 font-bold py-3 mt-5">A calmer, safer way to recover <span className="text-[#22497D]"> supervised, structured, warm.</span></h1>
-        <p className="text-[18px] max-w-[580px] text-gray-500">Transition Care Center is a specialised recovery facility for patients who are stable enough to leave the hospital but still need continuous medical care. We deliver clinical precision with the warmth of a home, so recovery doesn't stall the moment discharge papers are signed.</p>
-        <div className="pt-2">
-          <ul>
-            <li className="flex gap-3 py-1  text-gray-500"><CheckCircle className="text-[#22497D]" />Hospital-grade care without the hospital chaos</li>
-            <li  className="flex gap-3 py-1 text-gray-500"><CheckCircle className="text-[#22497D]" />Structured recovery protocols for faster healing</li>
-            <li className="flex gap-3 py-1 text-gray-500"><CheckCircle className="text-[#22497D]" />Your family focuses on presence, not procedures</li>
-            <li className="flex gap-3 py-1 text-gray-500"><CheckCircle className="text-[#22497D]" />Lower risk of readmission and infection</li>
-          </ul>
+      </section>
+
+      <section className="py-12 md:py-14 soft-section">
+        <div className="max-w-7xl mx-auto px-4 md:px-6">
+          <div className="text-center mb-9">
+            <h2 className="text-2xl md:text-3xl font-extrabold text-[#1a2547]">
+              Why Choose Us?
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-4 max-w-6xl mx-auto">
+            {whyChoose.map((item, i) => {
+              const Icon = item.icon;
+              return (
+                <div key={i} className="flex flex-col items-center text-center gap-2">
+                  <div className="w-12 h-12 rounded-full bg-emerald-50 border border-emerald-100 flex items-center justify-center shadow-sm">
+                    <Icon size={22} strokeWidth={1.6} className="text-[#1B8C5C]" />
+                  </div>
+                  <p className="text-[11px] sm:text-xs font-extrabold text-[#1a2547] leading-tight max-w-[110px]">{item.title}</p>
+                </div>
+              );
+            })}
+          </div>
         </div>
-        <button className="p-4 bg-[#22497D] text-amber-50 mt-3 rounded-2xl text-[18px] cursor-pointer">How can help you</button>
-
-        </div>
-
-      </div>
-
-      <div className="bg-[#2f3b7c] py-10">
-  <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 text-center text-white">
-
-    {stats.map((item, i) => (
-      <div key={i} className="flex flex-col items-center justify-center ">
-
-        <div className={`px-4 py-2 rounded-md ${item.label === "Cities" ? "bg-blue-300" : ""}`}>
-          <h2 className="text-6xl md:text-5xl font-bold leading-none font-bold ">
-            {item.value}{item.suffix}
-          </h2>
-        </div>
-
-        <p className="mt-2 text-lg opacity-90 leading-snug">
-          {item.label}
-        </p>
-
-      </div>
-    ))}
-
-  </div>
-</div>
-
-    </div>
+      </section>
+    </>
   );
 }
 
