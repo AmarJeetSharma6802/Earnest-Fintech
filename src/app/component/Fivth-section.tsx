@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { ChevronDown, Upload, FileText, Phone, Heart, Shield, Clock } from "lucide-react";
+import { ArrowRight, CalendarCheck, ChevronDown, ClipboardCheck, Clock, FileSearch, FileText, Heart, MessagesSquare, Phone, Shield, Upload } from "lucide-react";
 import { useModal } from "../ModalProvider";
 
 function FivthSection() {
@@ -14,6 +14,27 @@ function FivthSection() {
     { qus: "Is insurance accepted?", ans: "Yes, we accept major insurance providers and help with cashless treatment paperwork." },
     { qus: "Can I get a second opinion?", ans: "Yes. Our oncologists can review your case and share a clear second opinion." },
     { qus: "How soon can I meet the doctor?", ans: "Urgent cases can often be scheduled same day or next day, based on doctor availability." },
+  ];
+
+  const carePaths = [
+    {
+      icon: FileSearch,
+      title: "I Have Reports",
+      desc: "Upload reports and get an oncologist review with the next best step.",
+      action: "Review My Reports",
+    },
+    {
+      icon: MessagesSquare,
+      title: "Need Clarity",
+      desc: "Talk to a care advisor if diagnosis, stage or treatment options feel confusing.",
+      action: "Talk to Advisor",
+    },
+    {
+      icon: CalendarCheck,
+      title: "Ready to Meet Doctor",
+      desc: "Book a consultation slot with the right specialist for your cancer type.",
+      action: "Book Consultation",
+    },
   ];
 
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
@@ -78,6 +99,73 @@ function FivthSection() {
             <button className="bg-[#1a2547] text-white px-8 py-2.5 rounded-md font-bold text-sm hover:bg-[#243156] shadow-md transition-all">
               View All FAQs
             </button>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-12 md:py-16 bg-[linear-gradient(180deg,#ffffff_0%,#f4fbf8_100%)]">
+        <div className="max-w-7xl mx-auto px-4 md:px-6">
+          <div className="grid lg:grid-cols-[1.25fr_0.75fr] gap-6 items-stretch">
+            <div className="rounded-2xl bg-[#1a2547] p-5 md:p-7 text-white shadow-[0_20px_55px_rgba(26,37,71,0.18)]">
+              <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-6">
+                <div>
+                  <p className="text-xs font-extrabold uppercase tracking-[0.22em] text-[#31B8AC]">Care Navigator</p>
+                  <h2 className="mt-2 text-2xl md:text-3xl font-extrabold leading-tight">
+                    Not sure where to start?
+                  </h2>
+                  <p className="mt-2 max-w-2xl text-sm leading-relaxed text-white/70">
+                    Choose your situation and our care team will guide you to the right specialist, reports, and next step.
+                  </p>
+                </div>
+                <div className="rounded-full border border-white/15 bg-white/10 px-4 py-2 text-xs font-bold text-white/85">
+                  Response within 24 hours
+                </div>
+              </div>
+
+              <div className="grid md:grid-cols-3 gap-4">
+                {carePaths.map((item, i) => {
+                  const Icon = item.icon;
+                  return (
+                    <button
+                      key={i}
+                      onClick={openModal}
+                      className="group rounded-xl border border-white/10 bg-white/[0.07] p-4 text-left transition-all hover:-translate-y-1 hover:bg-white hover:text-[#1a2547]"
+                    >
+                      <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-lg bg-[#31B8AC]/20 text-[#31B8AC] group-hover:bg-emerald-50 group-hover:text-[#1B8C5C]">
+                        <Icon size={22} />
+                      </div>
+                      <h3 className="text-base font-extrabold">{item.title}</h3>
+                      <p className="mt-2 min-h-[54px] text-xs leading-relaxed text-white/65 group-hover:text-slate-600">
+                        {item.desc}
+                      </p>
+                      <span className="mt-4 inline-flex items-center gap-2 text-xs font-extrabold text-[#31B8AC] group-hover:text-[#1B8C5C]">
+                        {item.action} <ArrowRight size={14} />
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            <div className="rounded-2xl border border-emerald-100 bg-white p-5 md:p-7 shadow-[0_18px_45px_rgba(15,23,42,0.08)]">
+              <div className="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-50 text-[#1B8C5C]">
+                <ClipboardCheck size={25} />
+              </div>
+              <h3 className="text-xl font-extrabold text-[#1a2547]">What happens after you contact us?</h3>
+              <div className="mt-6 space-y-5">
+                {["Care coordinator calls you", "Doctor reviews your reports", "Treatment route is explained", "Appointment is scheduled"].map((step, i) => (
+                  <div key={step} className="flex gap-3">
+                    <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#1B8C5C] text-xs font-extrabold text-white">
+                      {i + 1}
+                    </div>
+                    <div>
+                      <p className="text-sm font-extrabold text-[#1a2547]">{step}</p>
+                      <p className="text-xs text-slate-500">Simple, guided and family-friendly process.</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </section>
