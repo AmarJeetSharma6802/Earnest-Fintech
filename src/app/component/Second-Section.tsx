@@ -2,9 +2,6 @@
 import React from "react";
 import Image from "next/image";
 import { useModal } from "../ModalProvider";
-import {
-  CheckCircle, Users, Microscope, HandHeart, Wallet, ShieldCheck, UserCheck, MessageSquare
-} from "lucide-react";
 
 function SecondSection() {
   const { openModal } = useModal();
@@ -21,14 +18,14 @@ function SecondSection() {
   ];
 
   const whyChoose = [
-    { icon: CheckCircle, title: "Free First Consultation" },
-    { icon: Users, title: "Personalized Treatment Plan" },
-    { icon: Microscope, title: "Advanced Cancer Care & Technology" },
-    { icon: HandHeart, title: "Multidisciplinary Expert Team" },
-    { icon: Wallet, title: "Affordable Treatment" },
-    { icon: ShieldCheck, title: "Insurance Assistance" },
-    { icon: UserCheck, title: "Patient Coordinator" },
-    { icon: MessageSquare, title: "Second Opinion Available" },
+    { image: "/Free_FirstConsultation.png", title: "Free First Consultation" },
+    { image: "/Personalized_TreatmentPlan.png", title: "Personalized Treatment Plan" },
+    { image: "/Advanced_CancerCare.png", title: "Advanced Cancer Care & Technology" },
+    { image: "/Multidisciplinary_ExpertTeam.png", title: "Multidisciplinary Expert Team" },
+    { image: "/Affordable_Treatment.png", title: "Affordable Treatment" },
+    { image: "/Insurance_Assistance.png", title: "Insurance Assistance" },
+    { image: "/Patient_Coordinator.png", title: "Patient Coordinator" },
+    { image: "/Second_OpinionAvailable.png", title: "Second Opinion Available" },
   ];
 
   return (
@@ -50,12 +47,12 @@ function SecondSection() {
                 key={i}
                 className="card-shell hover-lift flex min-h-[138px] flex-col items-center justify-center gap-3 rounded-xl p-3 text-center"
               >
-                <div className="relative h-16 w-16 overflow-hidden rounded-full bg-[#f8fbff] border border-slate-100 shadow-sm">
+                <div className="relative h-18 w-18 overflow-hidden rounded-full bg-[#f8fbff] border border-slate-100 shadow-sm">
                   <Image
                     src={item.image}
                     alt={item.label}
                     fill
-                    sizes="74px"
+                    sizes="64px"
                     className="object-contain p-1.5"
                   />
                 </div>
@@ -84,17 +81,20 @@ function SecondSection() {
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-4 max-w-6xl mx-auto">
-            {whyChoose.map((item, i) => {
-              const Icon = item.icon;
-              return (
-                <div key={i} className="flex flex-col items-center text-center gap-2">
-                  <div className="w-12 h-12 rounded-full bg-emerald-50 border border-emerald-100 flex items-center justify-center shadow-sm">
-                    <Icon size={22} strokeWidth={1.6} className="text-[#1B8C5C]" />
-                  </div>
-                  <p className="text-[11px] sm:text-xs font-extrabold text-[#1a2547] leading-tight max-w-[110px]">{item.title}</p>
+            {whyChoose.map((item, i) => (
+              <div key={i} className="flex flex-col items-center text-center gap-2">
+                <div className="relative h-20 w-20 overflow-hidden rounded-full bg-white border border-emerald-100 shadow-sm">
+                  <Image
+                    src={item.image}
+                    alt={item.title}
+                    fill
+                    sizes="76px"
+                    className="object-contain p-1.5"
+                  />
                 </div>
-              );
-            })}
+                <p className="text-[11px] sm:text-xs font-extrabold text-[#1a2547] leading-tight max-w-[110px]">{item.title}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
