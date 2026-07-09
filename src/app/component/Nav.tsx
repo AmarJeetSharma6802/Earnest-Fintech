@@ -17,12 +17,12 @@ function Nav() {
 
   const navLinks = [
     { label: "Home", href: "#" },
-    { label: "About Us", href: "#about" },
-    { label: "Cancer Types", href: "#cancer-types" },
-    { label: "Doctors", href: "#doctors" },
-    { label: "Treatment", href: "#treatment" },
-    { label: "Patient Stories", href: "#testimonials" },
-    { label: "Contact", href: "#contact" },
+    // { label: "About Us", href: "#about" },
+    // { label: "Cancer Types", href: "#cancer-types" },
+    // { label: "Doctors", href: "#doctors" },
+    // { label: "Treatment", href: "#treatment" },
+    // { label: "Patient Stories", href: "#testimonials" },
+    // { label: "Contact", href: "#contact" },
   ];
 
   return (
@@ -50,7 +50,7 @@ function Nav() {
           </Link>
 
           {/* NAV LINKS - Desktop */}
-          <ul className="hidden lg:flex items-center gap-6">
+          {/* <ul className="hidden lg:flex items-center gap-6">
             {navLinks.map((link) => (
               <li key={link.label}>
                 <a
@@ -61,10 +61,10 @@ function Nav() {
                 </a>
               </li>
             ))}
-          </ul>
+          </ul> */}
 
           {/* CTA BUTTON */}
-          <div className="hidden md:flex items-center gap-3">
+          <div className=" md:flex items-center gap-3">
             <a
               href="tel:+919986764471"
               className="flex items-center gap-2 bg-[#1a2547] text-white px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-[#243156] shadow-sm transition-all"
@@ -75,39 +75,10 @@ function Nav() {
             </a>
           </div>
 
-          {/* MOBILE TOGGLE */}
-          <button
-            className="lg:hidden text-gray-700"
-            onClick={() => setMobileOpen(!mobileOpen)}
-          >
-            {mobileOpen ? <X size={26} /> : <Menu size={26} />}
-          </button>
+         
         </div>
 
-        {/* MOBILE MENU */}
-        {mobileOpen && (
-          <div className="lg:hidden bg-white border-t border-gray-100 shadow-lg">
-            <div className="px-6 py-4 space-y-3">
-              {navLinks.map((link) => (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  onClick={() => setMobileOpen(false)}
-                  className="block text-sm font-medium text-gray-700 py-2 border-b border-gray-50 hover:text-[#1B8C5C]"
-                >
-                  {link.label}
-                </a>
-              ))}
-              <a
-                href="tel:+919986764471"
-                className="flex items-center justify-center gap-2 bg-[#1B8C5C] text-white px-5 py-3 rounded-full text-sm font-semibold mt-3"
-              >
-                <Phone size={15} />
-                Call Now +91 99867 64471
-              </a>
-            </div>
-          </div>
-        )}
+       
       </nav>
 
       {/* SPACER */}
