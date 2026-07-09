@@ -12,9 +12,9 @@ export default function FacilitySection() {
 
   const doctors = [
     { name: "Dr. Rajesh Kumar", qualification: "MD, DM Oncology", specialty: "Medical Oncology", experience: "15+ Years", image: "/doctor.png" },
-    { name: "Dr. Neha Sharma", qualification: "MS, MCh Surgical Oncology", specialty: "Surgical Oncology", experience: "12+ Years", image: "/doctor.png" },
-    { name: "Dr. Amit Verma", qualification: "MD, Radiation Oncology", specialty: "Radiation Oncology", experience: "10+ Years", image: "/doctor.png" },
-    { name: "Dr. Pooja Mehta", qualification: "MD, Hematology", specialty: "Hematology Oncology", experience: "8+ Years", image: "/doctor.png" },
+    { name: "Dr. Amit Verma ", qualification: "MS, MCh Surgical Oncology", specialty: "Surgical Oncology", experience: "12+ Years", image: "/second_doctor.webp" },
+    { name: "Dr. Neha Sharma", qualification: "MD, Radiation Oncology", specialty: "Radiation Oncology", experience: "10+ Years", image: "/third_doctor.jpg" },
+    { name: "Dr. Pooja Mehta", qualification: "MD, Hematology", specialty: "Hematology Oncology", experience: "8+ Years", image: "/fourth_doctor.png" },
   ];
 
   const journeySteps = [
